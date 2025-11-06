@@ -1,28 +1,29 @@
-import { useState } from 'react'
+import React, { useMemo, useState } from 'react';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import CategoryTabs from './components/CategoryTabs';
+import GameGrid from './components/GameGrid';
+import PlayerModal from './components/PlayerModal';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [search, setSearch] = useState('');
+  const [currentGame, setCurrentGame] = useState(null);
+
+  const handleClear = () => setSearch('');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+      <Navbar search={search} setSearch={setSearch} onClear={handleClear} />
+      <Hero />
+      <CategoryTabs active={activeCategory} onChange={setActiveCategory} />
+      <GameGrid activeCategory={activeCategory} search={search} onPlay={setCurrentGame} />
+      <footer className="max-w-6xl mx-auto px-4 py-10 text-slate-400 text-sm">
+        صُمّم ليوفر لك تجربة ألعاب ويب سريعة وخفيفة مثل Friv — كل الألعاب تُفتح في تبويب أو داخل المشغّل.
+      </footer>
+      <PlayerModal game={currentGame} onClose={() => setCurrentGame(null)} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
